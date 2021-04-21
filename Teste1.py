@@ -2,9 +2,10 @@ import numpy as np
 import cv2
 from skimage import data, filters
 from tracker import *
+from Leitura import Leitura
 
 # Open Video
-cap = cv2.VideoCapture('Video 1.avi')
+cap = cv2.VideoCapture('Video1.avi')
 
 #Create tracker object
 tracker = EuclideanDistTracker()
@@ -21,6 +22,10 @@ cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
 # Convert background to grayscale
 grayMedianFrame = cv2.cvtColor(medianFrame, cv2.COLOR_BGR2GRAY)
+
+# Variaveis do leitor 
+countVet = 0
+vet = Leitura().leitura()
 
 # Loop over all frames
 ret = True
@@ -48,17 +53,19 @@ while(ret):
 
   fishes_ids = tracker.update(detections)
 
+  
   for fish_id in fishes_ids:
     x,y,w,h,id_ = fish_id
     cv2.putText(frame, "id: "+ str(id_), (x,y -15), cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),2)
-    print(str(x)+","+str(y),end=";")
-
+    
+  print(vet[countVet])
+  countVet = countVet + 1
     
   # Display image
   cv2.imshow('frame', dframe)
   cv2.imshow("Frame" , frame)
 
-  print("")
+  countVet
 
   key = cv2.waitKey(0)
 
