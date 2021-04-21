@@ -28,6 +28,8 @@ grayMedianFrame = cv2.cvtColor(medianFrame, cv2.COLOR_BGR2GRAY)
 countVet = 0
 vet = Leitura().leitura()
 """ arq = Leitura() """
+
+countFrame = 1
 # Loop over all frames
 ret = True
 while(ret):
@@ -45,7 +47,7 @@ while(ret):
   cnts,hierarchy = cv2.findContours(dframe, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
   
   i = -1
-
+  
   
   # loop over the contours
   for c in cnts:
@@ -70,15 +72,39 @@ while(ret):
 
   length = len(vet[countVet])/2
 
+  if length < 8:
+    print(str(countFrame)  + " - Houve intersecção")
+  else:
+    print(countFrame)
+
+  countFrame = countFrame + 1
+
   for i in range(int(length)):
     if i == 0:
-      vetX = math.floor(float(vet[countVet][0]))
-      vetY = math.floor(float(vet[countVet][1]))
-    if i != 0:
-      vetX = math.floor(float(vet[countVet][i*2]))
-      vetY = math.floor(float(vet[countVet][i*2+1]))
-    cv2.circle(frame,(vetX,vetY),5,(0,0,255), -1)
+      vetX = int(vet[countVet][0])
+      vetY = int(vet[countVet][1])
+    else:
+      vetX = int(vet[countVet][i*2])
+      vetY = int(vet[countVet][i*2+1])
+
+    if i == 0:
+      cv2.circle(frame,(vetX,vetY),5,(0,0,255), -1)   # Vermelho  ID = 1
+    elif i == 1:
+      cv2.circle(frame,(vetX,vetY),5,(0,255,0), -1)   # Verde     ID = 2
+    elif i == 2:
+      cv2.circle(frame,(vetX,vetY),5,(255,0,0), -1)   #Azul       ID = 3
+    elif i == 3:
+      cv2.circle(frame,(vetX,vetY),5,(255,0,255), -1) #Roxo       ID = 4
+    elif i == 4:
+      cv2.circle(frame,(vetX,vetY),5,(255,255,0), -1) #Azul claro ID = 5
+    elif i == 5:
+      cv2.circle(frame,(vetX,vetY),5,(0,255,255), -1) #Amarelo    ID = 6
+    elif i == 6:
+      cv2.circle(frame,(vetX,vetY),5,(120,150,0), -1) #Ciano      ID = 7
+    elif i == 7:
+      cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8
  
+  
 
   # Display image
   cv2.imshow('Background Subtraction', dframe)
@@ -88,7 +114,7 @@ while(ret):
   countVet = countVet + 1
 
   key = cv2.waitKey(0)
-
+  
   if key == 27:
       break
 # Release video object
