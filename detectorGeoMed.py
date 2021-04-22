@@ -57,6 +57,7 @@ cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
 grayMedianFrame = cv2.cvtColor(medianFrame, cv2.COLOR_BGR2GRAY)
 # Loop over all frames
 ret = True
+hasbeenrun = False
 mask = np.zeros(grayMedianFrame.shape, dtype=np.uint8)
 
 while(ret):
@@ -95,6 +96,10 @@ while(ret):
         
         detections.append([int(geoM[1]),int(geoM[0])])
 
+  if not hasbeenrun:
+    Gtracker.start(detections)
+    hasbeenrun = True
+
   fishes_ids = Gtracker.update(detections)
   
   for fish_id in fishes_ids:
@@ -109,7 +114,7 @@ while(ret):
 
   print("")
 
-  key = cv2.waitKey(20)
+  key = cv2.waitKey(0)
 
   if key == 27:
       break
