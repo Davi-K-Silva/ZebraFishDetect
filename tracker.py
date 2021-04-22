@@ -27,7 +27,7 @@ class EuclideanDistTracker:
                 dist = math.hypot(cx - pt[0], cy - pt[1])
                 
                 if id in possiv_ids:
-                    del(possiv_ids[possiv_ids.index(id)])
+                    del(possiv_ids[possiv_ids.index(id)]) # Se um peixe já existir com o Id, então retira da lista de possíveis Ids
                 if dist < 25:
                     self.center_points[id] = (cx, cy)
                     
@@ -38,7 +38,7 @@ class EuclideanDistTracker:
             # New object is detected we assign the ID to that object
             if same_object_detected is False:
                 
-                id_ = possiv_ids[0]
+                id_ = possiv_ids[0] #Adiciona o Id que está em primeiro na lista de possíveis Ids
 
                 self.center_points[id_] = (cx, cy)
                 objects_bbs_ids.append([x, y, w, h, id_])
