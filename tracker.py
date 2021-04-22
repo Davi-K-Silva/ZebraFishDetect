@@ -69,6 +69,7 @@ class GeoMTracker:
     def update(self, Sfish):
         # Objects boxes and ids
         objects_bbs_ids = []
+        used = []
 
         # Get center point of new object
         for fish in Sfish:
@@ -85,8 +86,12 @@ class GeoMTracker:
                     smallestdist = dist
                     smallestid = id
 
-            self.center_points[smallestid] = (cx, cy)       
-            objects_bbs_ids.append([cx, cy, smallestid])
+            if smallestid in used:
+                print('COLLISION HAS HAPPENED')
+            else:
+                self.center_points[smallestid] = (cx, cy)       
+                objects_bbs_ids.append([cx, cy, smallestid])
+            used.append(smallestid)
 
 
         # Clean the dictionary by center points to remove IDS not used anymore
