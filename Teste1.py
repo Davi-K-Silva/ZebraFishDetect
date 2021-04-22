@@ -26,7 +26,7 @@ grayMedianFrame = cv2.cvtColor(medianFrame, cv2.COLOR_BGR2GRAY)
 # Variaveis do leitor 
 countVet = 0
 vet = Leitura().leitura()
-
+countFrame = 1
 # Loop over all frames
 ret = True
 while(ret):
@@ -51,6 +51,7 @@ while(ret):
 
         detections.append([x,y,w,h])
 
+  print(countFrame)
   fishes_ids = tracker.update(detections)
 
   
@@ -58,14 +59,14 @@ while(ret):
     x,y,w,h,id_ = fish_id
     cv2.putText(frame, "id: "+ str(id_), (x,y -15), cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),2)
     
-  print(vet[countVet])
+ 
   countVet = countVet + 1
     
   # Display image
   cv2.imshow('frame', dframe)
   cv2.imshow("Frame" , frame)
 
-  countVet
+  countFrame += 1
 
   key = cv2.waitKey(0)
 
