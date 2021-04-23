@@ -6,6 +6,10 @@ from skimage import data, filters
 from Leitura import Leitura
 from tracker import *
 
+def onMouse(event, x, y, flags, param):# Função de detecção de click do mouse
+    if event == cv2.EVENT_LBUTTONDOWN:
+       # draw circle here (etc...)
+       print(str(x)+";"+str(y))
 
 color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
 
@@ -34,6 +38,10 @@ countVet = 0
 vet = Leitura().leitura()
 """ arq = Leitura() """
 
+#Evento de click do mouse
+cv2.namedWindow('Detection')
+cv2.setMouseCallback('Detection',onMouse)
+
 countFrame = 1
 # Loop over all frames
 ret = True
@@ -52,7 +60,7 @@ while(ret):
   cnts,hierarchy = cv2.findContours(dframe, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
   
   i = -1
-
+  
   detections = []
   
   # loop over the contours
@@ -135,12 +143,14 @@ while(ret):
   #Count for file
   countVet = countVet + 1
 
-  key = cv2.waitKey(50)
-  
+  key = cv2.waitKey(0)
+
   if key == 27:
       break
+  
 # Release video object
 cap.release()
 
 # Destroy all windows
 cv2.destroyAllWindows()
+
