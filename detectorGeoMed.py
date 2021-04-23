@@ -35,6 +35,11 @@ def geometric_median(X, eps=1e-5):
 
         y = y1
 
+def onMouse(event, x, y, flags, param):# Função de detecção de click do mouse
+    if event == cv2.EVENT_LBUTTONDOWN:
+       # draw circle here (etc...)
+       print(str(x)+";"+str(y))
+
 color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
 
 # Open Video
@@ -60,12 +65,16 @@ grayMedianFrame = cv2.cvtColor(medianFrame, cv2.COLOR_BGR2GRAY)
 # Variaveis do leitor 
 countVet = 0
 vet = Leitura().leitura()
-""" arq = Leitura() """
+
+
+#Evento de click do mouse
+cv2.namedWindow('Detection')
+cv2.setMouseCallback('Detection',onMouse)
 
 countFrame = 1
 # Loop over all frames
 ret = True
-
+countCol = 0
 mask = np.zeros(grayMedianFrame.shape, dtype=np.uint8)
 while(ret):
 
@@ -84,6 +93,7 @@ while(ret):
   i = -1
 
   detections = []
+  
   
   # loop over the contours
   for c in cnts:
@@ -112,13 +122,10 @@ while(ret):
   print(countFrame)
   
   """ for fish_id in fishes_ids:
-    x,y,w,h,id_ = fish_id
-    
-     with open("peixe.txt",'a') as arquivo:                       
-            arquivo.write(str(x + w/2)+";"+str(y + h/2)+";" + "  |  "+ str(id_)+" |  ") 
+    x,y,id_ = fish_id
      
     with open("peixe.txt",'a') as arquivo:                       
-            arquivo.write(str(x + w/2)+";"+str(y + h/2)+";")
+            arquivo.write(str(x)+";"+str(y)+";")
    
   with open("peixe.txt",'a') as arquivo:                        
             arquivo.write("\n") """
@@ -128,7 +135,7 @@ while(ret):
   
   length = len(vet[countVet])/2
   
-  
+  verCol = True
   for i in range(int(length)):
     if i == 0:
       vetX = int(vet[countVet][0])
@@ -137,29 +144,33 @@ while(ret):
       vetX = int(vet[countVet][i*2])
       vetY = int(vet[countVet][i*2+1])
 
+    if verCol is True and vetX == 1:
+      countCol += 1
+      verCol = False
+
     if i == 0:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(0,0,255), -1)   # Vermelho  ID = 1
     elif i == 1:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(0,255,0), -1)   # Verde     ID = 2
     elif i == 2:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(255,0,0), -1)   #Azul       ID = 3
     elif i == 3:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(255,0,255), -1) #Roxo       ID = 4
     elif i == 4:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(255,255,0), -1) #Azul claro ID = 5
     elif i == 5:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(0,255,255), -1) #Amarelo    ID = 6
     elif i == 6:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(120,150,0), -1) #Ciano      ID = 7
     elif i == 7:
-      if vetX & vetX != 1:
+      if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8
  
   
@@ -171,10 +182,12 @@ while(ret):
   #Count for file
   countVet = countVet + 1
 
-  key = cv2.waitKey(50)
+  key = cv2.waitKey(10)
   
   if key == 27:
       break
+
+print("Número de colisões: "+ str(countCol)) # 20 = 172 frames 501 / 16 = 223 frame 502 / 23 = 213 frames 503 / 18 = 259 frames 501 / 19 = 228 502 frames / 21 = 185 frame 504 / 19.5 = 234 frame 504
 # Release video object
 cap.release()
 
