@@ -99,7 +99,7 @@ while(ret):
   for c in cnts:
     i = i + 1
     # if the contour is too small, ignore it
-    if cv2.contourArea(c) < 50:
+    if cv2.contourArea(c) < 60:
       continue
 
     cv2.drawContours(mask,[c], -1, (255,255,255),-1)
@@ -117,9 +117,11 @@ while(ret):
 
     cv2.putText(frame, cord, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
     cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
-
-  fishes_ids = tracker.update(detections) 
   print(countFrame)
+  
+  #fishes_ids = tracker.update(detections) 
+  
+  
   
   """ for fish_id in fishes_ids:
     x,y,id_ = fish_id
