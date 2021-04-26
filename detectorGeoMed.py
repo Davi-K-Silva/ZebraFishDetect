@@ -117,7 +117,7 @@ while(ret):
 
     cv2.putText(frame, cord, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
     cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
-  print(countFrame)
+  print(countFrame,end=" ")
   
   #fishes_ids = tracker.update(detections) 
   
@@ -148,7 +148,9 @@ while(ret):
 
     if verCol is True and vetX == 1:
       countCol += 1
+      print(" - Houve colisão",end="")
       verCol = False
+    
 
     if i == 0:
       if vetX != 1:
@@ -175,7 +177,7 @@ while(ret):
       if vetX != 1:
         cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8
  
-  
+  print("")
 
   # Display image
   cv2.imshow('Background Subtraction', dframe)

@@ -49,7 +49,9 @@ class GeoMEuclideanDistTracker:
         list_as = []
 
         possiv_ids = [1,2,3,4,5,6,7,8,9,10,11,12,13] #Lista com os possíveis Ids
-        
+        print(objects_cord)
+        print(self.center_points)
+
         if self.verify_start is False:
             # Get center point of new object
             for cord in objects_cord:
@@ -76,7 +78,10 @@ class GeoMEuclideanDistTracker:
                 if id_D in list_id_D:
                     same_object_detected = True
                     list_as.append([cx, cy, id_D])
-                else:
+                    
+                    
+                        
+                else: 
                     list_id_D.append(id_D)
                     list_as.append([cx, cy, id_D])
 
