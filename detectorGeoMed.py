@@ -119,7 +119,7 @@ while(ret):
     cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
   print(countFrame,end=" ")
   
-  #fishes_ids = tracker.update(detections) 
+  fishes_ids = tracker.update(detections) 
   
   
   

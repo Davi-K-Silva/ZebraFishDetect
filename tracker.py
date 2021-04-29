@@ -30,12 +30,7 @@ class GeoMEuclideanDistTracker:
                     if id in possiv_ids:
                         del(possiv_ids[possiv_ids.index(id)]) # Se um peixe já existir com o Id, então retira da lista de possíveis Ids
                         
-                    if dist < 15:
-                        self.center_points[id] = (cx, cy)
-                        
-                        objects_bbs_ids.append([cx, cy, id])
-                        same_object_detected = True
-                        break
+                    
 
                 # New object is detected we assign the ID to that object
                 if same_object_detected is False:
@@ -67,20 +62,19 @@ class GeoMEuclideanDistTracker:
                 for id, pt in self.center_points.items():
                     dist = math.hypot(cx - pt[0], cy - pt[1])
 
-                    if id in possiv_ids:
-                        del(possiv_ids[possiv_ids.index(id)]) # Se um peixe já existir com o Id, então retira da lista de possíveis Ids
+                    
                     if min_dist > dist:
                         
                         id_D = id
                         min_dist = dist
-               
-                
+                    
+                if id_D in possiv_ids:
+                        del(possiv_ids[possiv_ids.index(id_D)]) # Se um peixe já existir com o Id, então retira da lista de possíveis Ids
+                print(id_D)
                 if id_D in list_id_D:
+                    
                     same_object_detected = True
-                    list_as.append([cx, cy, id_D])
-                    
-                    
-                        
+                    list_as.append([cx, cy, id_D])       
                 else: 
                     list_id_D.append(id_D)
                     list_as.append([cx, cy, id_D])
@@ -89,9 +83,11 @@ class GeoMEuclideanDistTracker:
                 list_same_id = []
                 x_y = []
                 id_rev = 0
+
              # New object is detected we assign the ID to that object
                 if same_object_detected is True:
-                    
+                    print(possiv_ids)
+                    print(list_as)
                     for x in list_as:
                         
                         if x[2] in list_same_id:
@@ -137,7 +133,8 @@ class GeoMEuclideanDistTracker:
             for x in list_as:
                 self.center_points[x[2]] = (x[0],x[1])
                 objects_bbs_ids.append([x[0],x[1], x[2]])
-                               
+        
+        print(self.center_points)       
         self.verify_start = False
 
         # Clean the dictionary by center points to remove IDS not used anymore
