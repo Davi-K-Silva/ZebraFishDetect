@@ -44,8 +44,7 @@ class GeoMEuclideanDistTracker:
         list_as = []
 
         possiv_ids = [1,2,3,4,5,6,7,8,9,10,11,12,13] #Lista com os possíveis Ids
-        print(objects_cord)
-        print(self.center_points)
+        
 
         if self.verify_start is False:
             # Get center point of new object
@@ -70,7 +69,7 @@ class GeoMEuclideanDistTracker:
                     
                 if id_D in possiv_ids:
                         del(possiv_ids[possiv_ids.index(id_D)]) # Se um peixe já existir com o Id, então retira da lista de possíveis Ids
-                print(id_D)
+                
                 if id_D in list_id_D:
                     
                     same_object_detected = True
@@ -86,8 +85,7 @@ class GeoMEuclideanDistTracker:
 
              # New object is detected we assign the ID to that object
                 if same_object_detected is True:
-                    print(possiv_ids)
-                    print(list_as)
+                    
                     for x in list_as:
                         
                         if x[2] in list_same_id:
@@ -134,7 +132,7 @@ class GeoMEuclideanDistTracker:
                 self.center_points[x[2]] = (x[0],x[1])
                 objects_bbs_ids.append([x[0],x[1], x[2]])
         
-        print(self.center_points)       
+      
         self.verify_start = False
 
         # Clean the dictionary by center points to remove IDS not used anymore
