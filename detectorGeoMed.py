@@ -43,7 +43,7 @@ def onMouse(event, x, y, flags, param):# Função de detecção de click do mous
 color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
 
 # Open Video
-cap = cv2.VideoCapture('video1.avi')
+cap = cv2.VideoCapture('video1.mp4')
 
 
 #Create tracker object
@@ -95,7 +95,7 @@ while(ret):
   detections = []
   
   
-  # loop over the contours
+  """ # loop over the contours
   for c in cnts:
     i = i + 1
     # if the contour is too small, ignore it
@@ -116,10 +116,10 @@ while(ret):
 
 
     cv2.putText(frame, cord, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
-    cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
-  print(countFrame,end=" ")
+    cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0) """
+  print(countFrame,end=" ") 
   
-  fishes_ids = tracker.update(detections) 
+  #fishes_ids = tracker.update(detections) 
   
   
   
