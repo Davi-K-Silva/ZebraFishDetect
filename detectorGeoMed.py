@@ -186,7 +186,7 @@ while(ret):
   #Count for file
   countVet = countVet + 1
 
-  key = cv2.waitKey(10)
+  key = cv2.waitKey(0)
   
   if key == 27:
       break
