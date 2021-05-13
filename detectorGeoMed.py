@@ -95,7 +95,7 @@ while(ret):
   detections = []
   
   
-  """ # loop over the contours
+  # loop over the contours
   for c in cnts:
     i = i + 1
     # if the contour is too small, ignore it
@@ -110,18 +110,16 @@ while(ret):
         
     x = int(geoM[1])
     y = int(geoM[0])
-    detections.append([x,y])
+    detections.append([x,y,cv2.contourArea(c)])
 
     cord = "x:" + str(x) + "y:" + str(y)
 
 
     cv2.putText(frame, cord, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
-    cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0) """
+    cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
   print(countFrame,end=" ") 
   
-  #fishes_ids = tracker.update(detections) 
-  
-  
+  fishes_ids = tracker.update(detections) 
   
   """ for fish_id in fishes_ids:
     x,y,id_ = fish_id
@@ -135,7 +133,7 @@ while(ret):
 
   countFrame = countFrame + 1
   
-  length = len(vet[countVet])/2
+  """ length = len(vet[countVet])/2
   
   verCol = True
   for i in range(int(length)):
@@ -175,7 +173,7 @@ while(ret):
         cv2.circle(frame,(vetX,vetY),5,(120,150,0), -1) #Ciano      ID = 7
     elif i == 7:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8
+        cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8 """
  
   print("")
 
