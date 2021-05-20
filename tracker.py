@@ -5,6 +5,7 @@ import math
 class GeoMEuclideanDistTracker:
     def __init__(self):
         # Store the center positions of the objects
+        print("init")
         self.center_points = {}
         self.center_points_ant = {}
         self.verify_start = True

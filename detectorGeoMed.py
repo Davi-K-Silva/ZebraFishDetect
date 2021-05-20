@@ -76,6 +76,11 @@ countFrame = 1
 ret = True
 countCol = 0
 mask = np.zeros(grayMedianFrame.shape, dtype=np.uint8)
+correct = 0
+wrong = 0
+length = (len(vet[countVet])/2) - 1
+reset = False
+needsreset = False
 while(ret):
 
   # Read frame
@@ -94,47 +99,58 @@ while(ret):
 
   detections = []
   
-  
-  # loop over the contours
-  for c in cnts:
-    i = i + 1
-    # if the contour is too small, ignore it
-    if cv2.contourArea(c) < 60:
-      continue
+  if reset == True:
+      tracker.__init__()
+      for i in range(int(length)):
+        if i == 0:
+          vetX = int(vet[countVet][0])
+          vetY = int(vet[countVet][1])
+        else:
+          vetX = int(vet[countVet][i*2])
+          vetY = int(vet[countVet][i*2+1])
 
-    cv2.drawContours(mask,[c], -1, (255,255,255),-1)
-    coords = np.column_stack(np.where(mask>0))
-    geoM = geometric_median(coords)
+        detections.append([vetX, vetY, 0])
+        reset = False
+  else:
+      # loop over the contours
+      for c in cnts:
+        i = i + 1
+        # if the contour is too small, ignore it
+        if cv2.contourArea(c) < 60:
+          continue
 
-    mask = np.zeros(frame.shape, dtype=np.uint8)
+        cv2.drawContours(mask,[c], -1, (255,255,255),-1)
+        coords = np.column_stack(np.where(mask>0))
+        geoM = geometric_median(coords)
+
+        mask = np.zeros(frame.shape, dtype=np.uint8)
         
-    x = int(geoM[1])
-    y = int(geoM[0])
-    detections.append([x,y,cv2.contourArea(c)])
+        x = int(geoM[1])
+        y = int(geoM[0])
+        detections.append([x,y,cv2.contourArea(c)])
 
-    cord = "x:" + str(x) + "y:" + str(y)
+        cord = "x:" + str(x) + "y:" + str(y)
 
 
-    cv2.putText(frame, cord, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
-    cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
+        cv2.putText(frame, cord, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
+        cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
   print(countFrame,end=" ") 
   
   fishes_ids = tracker.update(detections) 
   
-  """ for fish_id in fishes_ids:
+  
+  for fish_id in fishes_ids:
     x,y,id_ = fish_id
      
-    with open("peixe.txt",'a') as arquivo:                       
-            arquivo.write(str(x)+";"+str(y)+";")
+#    with open("peixe.txt",'a') as arquivo:                       
+#            arquivo.write(str(x)+";"+str(y)+";")
    
-  with open("peixe.txt",'a') as arquivo:                        
-            arquivo.write("\n") """
+#  with open("peixe.txt",'a') as arquivo:                        
+#            arquivo.write("\n") 
 
 
   countFrame = countFrame + 1
-  
-  """ length = len(vet[countVet])/2
-  
+
   verCol = True
   for i in range(int(length)):
     if i == 0:
@@ -144,37 +160,79 @@ while(ret):
       vetX = int(vet[countVet][i*2])
       vetY = int(vet[countVet][i*2+1])
 
-    if verCol is True and vetX == 1:
+    if verCol is True and int(vet[countVet][16]) == 1:
       countCol += 1
       print(" - Houve colisão",end="")
+      reset = True
       verCol = False
+    if verCol is True:
+      needsreset = False
+      algX = detections[i][0]
+      algY = detections[i][1]
+
+      print('------------')
+      print(algX)
+      print(algY)
+      print(vetX)
+      print(vetY)
+      print('------------')
+      if algX == vetX and algY == vetY:
+        correct += 1
+      else:
+        wrong += 1
     
+
+#    if i == 0:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(0,0,255), -1)   # Vermelho  ID = 1
+#    elif i == 1:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(0,255,0), -1)   # Verde     ID = 2
+#    elif i == 2:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(255,0,0), -1)   #Azul       ID = 3
+#    elif i == 3:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(255,0,255), -1) #Roxo       ID = 4
+#    elif i == 4:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(255,255,0), -1) #Azul claro ID = 5
+#    elif i == 5:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(0,255,255), -1) #Amarelo    ID = 6
+#    elif i == 6:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(120,150,0), -1) #Ciano      ID = 7
+#    elif i == 7:
+#      if vetX != 1:
+#        cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8 
+ 
 
     if i == 0:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(0,0,255), -1)   # Vermelho  ID = 1
+        cv2.circle(frame,(algX,algY),5,(0,0,255), -1)   # Vermelho  ID = 1
     elif i == 1:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(0,255,0), -1)   # Verde     ID = 2
+        cv2.circle(frame,(algX,algY),5,(0,255,0), -1)   # Verde     ID = 2
     elif i == 2:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(255,0,0), -1)   #Azul       ID = 3
+        cv2.circle(frame,(algX,algY),5,(255,0,0), -1)   #Azul       ID = 3
     elif i == 3:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(255,0,255), -1) #Roxo       ID = 4
+        cv2.circle(frame,(algX,algY),5,(255,0,255), -1) #Roxo       ID = 4
     elif i == 4:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(255,255,0), -1) #Azul claro ID = 5
+        cv2.circle(frame,(algX,algY),5,(255,255,0), -1) #Azul claro ID = 5
     elif i == 5:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(0,255,255), -1) #Amarelo    ID = 6
+        cv2.circle(frame,(algX,algY),5,(0,255,255), -1) #Amarelo    ID = 6
     elif i == 6:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(120,150,0), -1) #Ciano      ID = 7
+        cv2.circle(frame,(algX,algY),5,(120,150,0), -1) #Ciano      ID = 7
     elif i == 7:
       if vetX != 1:
-        cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8 """
- 
+        cv2.circle(frame,(algX,algY),5,(60,70,190), -1) #Marrom     ID = 8 
+
   print("")
 
   # Display image
