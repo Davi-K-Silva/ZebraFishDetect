@@ -167,15 +167,8 @@ while(ret):
       verCol = False
     if verCol is True:
       needsreset = False
-      algX = detections[i][0]
-      algY = detections[i][1]
-
-      print('------------')
-      print(algX)
-      print(algY)
-      print(vetX)
-      print(vetY)
-      print('------------')
+      algX = fishes_ids[i][0]
+      algY = fishes_ids[i][1]
       if algX == vetX and algY == vetY:
         correct += 1
       else:
