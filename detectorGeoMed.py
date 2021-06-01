@@ -5,6 +5,7 @@ from cv2 import cv2
 from skimage import data, filters
 from Leitura import Leitura
 from tracker import *
+from Escrita import *
 from scipy.spatial.distance import cdist, euclidean
 
 def geometric_median(X, eps=1e-5):
@@ -45,6 +46,7 @@ color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
 # Open Video
 cap = cv2.VideoCapture('video1.mp4')
 
+colorFishes = [(0,0,255),(0,255,0),(255,0,0),(255,0,255),(255,255,0),(0,255,255),(120,150,0),(60,70,190)]
 
 #Create tracker object
 tracker = GeoMEuclideanDistTracker()
@@ -78,9 +80,11 @@ countCol = 0
 mask = np.zeros(grayMedianFrame.shape, dtype=np.uint8)
 correct = 0
 wrong = 0
-length = (len(vet[countVet])/2) - 1
+length = (len(vet[countVet])/2)
 reset = False
 needsreset = False
+
+write = Escrita()
 while(ret):
 
   # Read frame
@@ -138,28 +142,24 @@ while(ret):
   
   fishes_ids = tracker.update(detections) 
   
-  
-  for fish_id in fishes_ids:
-    x,y,id_ = fish_id
-     
-#    with open("peixe.txt",'a') as arquivo:                       
-#            arquivo.write(str(x)+";"+str(y)+";")
-   
-#  with open("peixe.txt",'a') as arquivo:                        
-#            arquivo.write("\n") 
+  #Escreve as posições dos peixes no arquivo de texto
+  #write.write(fishes_ids) 
 
 
   countFrame = countFrame + 1
-
   verCol = True
   for i in range(int(length)):
+    
     if i == 0:
       vetX = int(vet[countVet][0])
       vetY = int(vet[countVet][1])
     else:
       vetX = int(vet[countVet][i*2])
       vetY = int(vet[countVet][i*2+1])
-
+    
+    algX = fishes_ids[i][0]
+    algY = fishes_ids[i][1]
+    
     if verCol is True and int(vet[countVet][16]) == 1:
       countCol += 1
       print(" - Houve colisão",end="")
@@ -167,64 +167,22 @@ while(ret):
       verCol = False
     if verCol is True:
       needsreset = False
-      algX = fishes_ids[i][0]
-      algY = fishes_ids[i][1]
       if algX == vetX and algY == vetY:
         correct += 1
       else:
-        wrong += 1
+        wrong += 1   
+    if vetX != 1:
+      cv2.circle(frame,(algX,algY),5,colorFishes[i], -1)    
     
-
-#    if i == 0:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(0,0,255), -1)   # Vermelho  ID = 1
-#    elif i == 1:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(0,255,0), -1)   # Verde     ID = 2
-#    elif i == 2:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(255,0,0), -1)   #Azul       ID = 3
-#    elif i == 3:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(255,0,255), -1) #Roxo       ID = 4
-#    elif i == 4:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(255,255,0), -1) #Azul claro ID = 5
-#    elif i == 5:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(0,255,255), -1) #Amarelo    ID = 6
-#    elif i == 6:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(120,150,0), -1) #Ciano      ID = 7
-#    elif i == 7:
-#      if vetX != 1:
-#        cv2.circle(frame,(vetX,vetY),5,(60,70,190), -1) #Marrom     ID = 8 
- 
-
-    if i == 0:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(0,0,255), -1)   # Vermelho  ID = 1
-    elif i == 1:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(0,255,0), -1)   # Verde     ID = 2
-    elif i == 2:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(255,0,0), -1)   #Azul       ID = 3
-    elif i == 3:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(255,0,255), -1) #Roxo       ID = 4
-    elif i == 4:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(255,255,0), -1) #Azul claro ID = 5
-    elif i == 5:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(0,255,255), -1) #Amarelo    ID = 6
-    elif i == 6:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(120,150,0), -1) #Ciano      ID = 7
-    elif i == 7:
-      if vetX != 1:
-        cv2.circle(frame,(algX,algY),5,(60,70,190), -1) #Marrom     ID = 8 
+    #ColorFishes
+    #Vermelho   ID = 1 
+    #Verde      ID = 2
+    #Azul       ID = 3
+    #Roxo       ID = 4
+    #Azul claro ID = 5
+    #Amarelo    ID = 6
+    #Ciano      ID = 7
+    #Marrom     ID = 8 
 
   print("")
 
@@ -240,7 +198,7 @@ while(ret):
   if key == 27:
       break
 
-print("Número de colisões: "+ str(countCol)) # 20 = 172 frames 501 / 16 = 223 frame 502 / 23 = 213 frames 503 / 18 = 259 frames 501 / 19 = 228 502 frames / 21 = 185 frame 504 / 19.5 = 234 frame 504
+print("Número de colisões: "+ str(countCol)) 
 # Release video object
 cap.release()
 
