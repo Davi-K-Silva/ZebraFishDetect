@@ -86,6 +86,8 @@ needsreset = False
 
 write = Escrita()
 while(ret):
+  print("Acertos: " + str(correct))
+  print("Erros: " + str(wrong))
 
   # Read frame
   ret, frame = cap.read()
@@ -167,7 +169,7 @@ while(ret):
       verCol = False
     if verCol is True:
       needsreset = False
-      if algX == vetX and algY == vetY:
+      if (algX <= vetX + 3 and algX >= vetX - 3) and (algY <= vetY + 3 and algY >= vetY - 3):
         correct += 1
       else:
         wrong += 1   
