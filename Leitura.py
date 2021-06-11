@@ -1,6 +1,11 @@
 
 class Leitura:
-
+    #
+    #   Lê o arquivo peixe.txt, separando em um vetor as coordenadas pelo ;
+    #
+    #   Return: Um vetor contendo as coordenadas dos peixes pelo id em ordem crescente 
+    #   e na ultima posição um valor de 0 a 1 para representar a ocorrência de colisões
+    #
     def __init__(self):
         self.count = 0
         self.vet_linhas = []
