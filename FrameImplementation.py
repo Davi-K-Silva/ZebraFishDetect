@@ -3,10 +3,7 @@ class FrameImplementation:
     def __init__(self):
         pass
 
-    def implementation(self,ret,grayMedianFrame,cap,reset,tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter):
-        print("Acertos: " + str(correct))
-        print("Erros: " + str(wrong))
-
+    def implementation(self,ret,grayMedianFrame,cap,reset,tracker,length,vet,countVet,getCountours,mask,color,filter):
         ret,frame,gframe,dframe,th,cnts,hierarchy = filter.filters(ret,grayMedianFrame,cap)
         
         i = -1
@@ -25,9 +22,7 @@ class FrameImplementation:
 
                 detections.append([vetX, vetY, 0])
                 reset = False
-            print("AAA")
         else:
-            print("BBB")
             cnts,mask,frame,detections,color,hierarchy = getCountours.getCountours(cnts,mask,frame,detections,color,hierarchy)
 
         return ret,frame,gframe,dframe,th,cnts,hierarchy,cnts,mask,frame,detections,color,hierarchy,reset
