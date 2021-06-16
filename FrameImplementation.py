@@ -3,14 +3,14 @@ class FrameImplementation:
     def __init__(self):
         pass
 
-    def implementation(self,ret,grayMedianFrame,cap,reset,tracker,length,vet,countVet,getCountours,mask,color,filter):
+    def implementation(self,ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,filter):
         ret,frame,gframe,dframe,th,cnts,hierarchy = filter.filters(ret,grayMedianFrame,cap)
         
         i = -1
 
         detections = []
-        
-        if reset == True:
+        #para resetar, reinicia o tracker e o fornece com os ids de acordo com o ground truth
+        if reset == True and comparison == True:
             tracker.__init__()
             for i in range(int(length)):
                 if i == 0:

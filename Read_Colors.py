@@ -11,15 +11,16 @@ class Read_Colors:
     # countVet: contador do frame 
     # fishes_ids: vtor contendo as cooredenas calculadas pelo tracker
     # countCol: Contador de colisões até o momento
-    # reset: 
+    # reset: sinalizador para fazer o reset dos ids de acordo com o ground truth apos uma colisão
+    # comparison: sinalizador de que o algoritmo está rodando em modo de comparação
     # verCol: Verificador de ocorrência de colisão
 
-    # correct:
-    # wrong:
+    # correct: posições corretas dos peixes
+    # wrong: posições incorretas dos peixes
     # frame: O frame em questão
     # colorFishes: Vetor contendo a cor especifica para cada peixe
 
-    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset,verCol,correct,wrong,frame,colorFishes):
+    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset, verCol,correct,wrong,frame,colorFishes):
         length = length
         vet  = vet
         countVet = countVet
@@ -32,8 +33,11 @@ class Read_Colors:
         frame = frame 
         colorFishes = colorFishes
         
+
+        #para cada peixe
         for i in range(int(length)):
     
+            #guarda os valores do ground truth para este peixe
             if i == 0:
                 vetX = int(vet[countVet][0])
                 vetY = int(vet[countVet][1])
@@ -41,14 +45,17 @@ class Read_Colors:
                 vetX = int(vet[countVet][i*2])
                 vetY = int(vet[countVet][i*2+1])
                 
+            #guarda os valores do algoritmo para este peixe
             algX = fishes_ids[i][0]
             algY = fishes_ids[i][1]
             
+            #verCol: se alguma colisão for registrada a comparação já não é mais feita para este frame
             if verCol is True and int(vet[countVet][16]) == 1:
                 countCol += 1
                 print(" - Houve colisão",end="")
                 reset = True
                 verCol = False
+            #enquanto não ocorrer uma colisão neste frame ele compara a posição de cada peixe de acordo com o algoritmo e de acordo com o ground truth
             if verCol is True:
                 if (algX <= vetX + 3 and algX >= vetX - 3) and (algY <= vetY + 3 and algY >= vetY - 3):
                     correct += 1

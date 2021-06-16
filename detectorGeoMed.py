@@ -47,6 +47,7 @@ correct = 0
 wrong = 0
 length = (len(vet[countVet])/2)
 reset = False
+comparison = True
 
 #Evento de click do mouse
 cv2.namedWindow('Detection')
@@ -54,7 +55,7 @@ cv2.setMouseCallback('Detection',onMouse.onMouse)
 
 write = Escrita()
 while(ret):
-  ret,frame,gframe,dframe,th,cnts,hierarchy,mask,detections,color,length,vet,countVet,fishes_ids,countCol,reset,verCol,correct,wrong,frame,colorFishes,countFrame = frameTracker.frameTracker(ret,grayMedianFrame,cap,reset,tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,frameImplementation,countFrame,readColors,countCol,colorFishes)
+  ret,frame,gframe,dframe,th,cnts,hierarchy,mask,detections,color,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes,countFrame = frameTracker.frameTracker(ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,frameImplementation,countFrame,readColors,countCol,colorFishes)
 
   #Count for file
   countVet = countVet + 1
