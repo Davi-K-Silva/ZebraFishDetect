@@ -25,4 +25,4 @@ class FrameImplementation:
         else:
             cnts,mask,frame,detections,color,hierarchy = getCountours.getCountours(cnts,mask,frame,detections,color,hierarchy)
 
-        return ret,frame,gframe,dframe,th,cnts,hierarchy,cnts,mask,frame,detections,color,hierarchy,reset
+        return ret,frame,gframe,dframe,th,cnts,hierarchy,cnts,mask,frame,detections,color,hierarchy,reset, comparison
