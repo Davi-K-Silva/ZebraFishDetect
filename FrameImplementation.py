@@ -3,7 +3,7 @@ class FrameImplementation:
     def __init__(self):
         pass
 
-    def implementation(self,ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,filter, maskColor, colorFishes, randColors):
+    def implementation(self,ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,filter, maskColor, colorFishes, heatMap, randColors):
         ret,frame,gframe,dframe,th,cnts,hierarchy = filter.filters(ret,grayMedianFrame,cap)
         
         i = -1

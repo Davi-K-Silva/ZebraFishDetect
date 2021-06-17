@@ -6,7 +6,7 @@ class FrameTracker:
     def __init__(self):
         pass
 
-    def frameTracker(self,ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,FrameImplementation,countFrame,readColors,countCol,colorFishes, maskColor, randColors):
+    def frameTracker(self,ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,FrameImplementation,countFrame,readColors,countCol,colorFishes, heatMap, maskColor, randColors):
         ret,frame,gframe,dframe,th,cnts,hierarchy,cnts,mask,frame,detections,color,hierarchy,reset,comparison, maskColor = FrameImplementation.implementation(ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,filter, maskColor, colorFishes, heatMap, randColors)
         print("Acertos: " + str(correct))
         print("Erros: " + str(wrong))
