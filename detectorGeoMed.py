@@ -11,13 +11,14 @@ from Start import Start
 from Filters import Filters
 from FrameImplementation import FrameImplementation
 from FrameTracker import FrameTracker
+from HeatMap import HeatMap
 
 start = Start()
 filter = Filters()
 frameImplementation = FrameImplementation()
 frameTracker = FrameTracker()
 
-cap,medianFrame,grayMedianFrame = start.start()
+cap,medianFrame,grayMedianFrame,heatMap = start.start()
 
 # Variaveis do leitor 
 countVet = 0
@@ -55,12 +56,15 @@ cv2.setMouseCallback('Detection',onMouse.onMouse)
 
 write = Escrita()
 while(ret):
-  ret,frame,gframe,dframe,th,cnts,hierarchy,mask,detections,color,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes,countFrame = frameTracker.frameTracker(ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,frameImplementation,countFrame,readColors,countCol,colorFishes)
+  ret,frame,gframe,dframe,th,cnts,hierarchy,mask,detections,color,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes,countFrame,heatMap = frameTracker.frameTracker(ret,grayMedianFrame,cap,reset, comparison, 
+  tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,frameImplementation,countFrame,readColors,countCol,colorFishes,heatMap)
 
   #Count for file
   countVet = countVet + 1
   key = cv2.waitKey(0)
   
+  
+  heatMap.ShowMap()
   if key == 27:
       break
 

@@ -20,7 +20,7 @@ class Read_Colors:
     # frame: O frame em questão
     # colorFishes: Vetor contendo a cor especifica para cada peixe
 
-    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset, verCol,correct,wrong,frame,colorFishes):
+    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset, verCol,correct,wrong,frame,colorFishes,heatMap):
         length = length
         vet  = vet
         countVet = countVet
@@ -62,6 +62,8 @@ class Read_Colors:
                 else:
                     wrong += 1   
             if vetX != 1:
+                if i == 5:
+                    heatMap.AttMap(algX,algY)
                 cv2.circle(frame,(algX,algY),5,colorFishes[i], -1)    
             
             #ColorFishes
@@ -73,4 +75,4 @@ class Read_Colors:
             #Amarelo    ID = 6
             #Ciano      ID = 7
             #Marrom     ID = 8  
-        return length,vet,countVet,fishes_ids,countCol,reset,verCol,correct,wrong,frame,colorFishes
+        return length,vet,countVet,fishes_ids,countCol,reset,verCol,correct,wrong,frame,colorFishes,heatMap
