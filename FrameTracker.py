@@ -28,6 +28,5 @@ class FrameTracker:
         cv2.imshow('Background Subtraction', dframe)
         cv2.imshow('Detection', frame)
         cv2.imshow('Individual', maskUnit)
-        cv2.imshow('fundo', medianFrame)
 
         return ret,frame,gframe,dframe,th,cnts,hierarchy,mask,detections,color,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes,countFrame, heatMap, maskColor
