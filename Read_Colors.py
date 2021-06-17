@@ -23,7 +23,7 @@ class Read_Colors:
     # frame: O frame em questão
     # colorFishes: Vetor contendo a cor especifica para cada peixe
 
-    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes, heatMap, maskColor):
+    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes, heatMap, maskColor, maskUnit):
         length = length
         vet  = vet
         countVet = countVet
@@ -45,6 +45,14 @@ class Read_Colors:
             #guarda os valores do algoritmo para este peixe
             algX = fishes_ids[i][0]
             algY = fishes_ids[i][1]
+
+            #guarda os valores do ground truth para este peixe
+            if i == 0:
+                vetX = int(vet[countVet][0])
+                vetY = int(vet[countVet][1])
+            else:
+                vetX = int(vet[countVet][i*2])
+                vetY = int(vet[countVet][i*2+1])
             
             #verCol: se alguma colisão for registrada a comparação já não é mais feita para este frame
             if verCol is True and int(vet[countVet][16]) == 1:
@@ -54,14 +62,6 @@ class Read_Colors:
                 verCol = False
             #enquanto não ocorrer uma colisão neste frame ele compara a posição de cada peixe de acordo com o algoritmo e de acordo com o ground truth
             if comparison is True:
-                #guarda os valores do ground truth para este peixe
-                if i == 0:
-                    vetX = int(vet[countVet][0])
-                    vetY = int(vet[countVet][1])
-                else:
-                    vetX = int(vet[countVet][i*2])
-                    vetY = int(vet[countVet][i*2+1])
-
                 #calcula a mediana geometrica a partir do blob no ponto do ground truth
                 b,g,r = maskColor[vetY, vetX]
                 coords = np.column_stack(np.where(maskColor == [b,g,r]))
@@ -79,7 +79,19 @@ class Read_Colors:
             if vetX != 1:
                 if i == 5:
                     heatMap.AttMap(algX,algY)
+
+                    b,g,r = maskColor[algY, algX]
+                    coords = np.column_stack(np.where(maskColor == [b,g,r]))
+
+                    for coord in coords:             
+                        maskUnit[coord[0], coord[1]] = [255,255,255]
+
                 cv2.circle(frame,(algX,algY),5,colorFishes[i], -1)    
+
+
+
+
+
             
             #ColorFishes
             #Vermelho   ID = 1 
@@ -90,4 +102,4 @@ class Read_Colors:
             #Amarelo    ID = 6
             #Ciano      ID = 7
             #Marrom     ID = 8  
-        return length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes, heatMap, maskColor
+        return length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes, heatMap, maskColor, maskUnit
