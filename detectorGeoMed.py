@@ -63,7 +63,7 @@ cv2.setMouseCallback('Detection',onMouse.onMouse)
 write = Escrita()
 while(ret):
   maskColor = np.zeros(medianFrame.shape, dtype=np.uint8)
-  ret,frame,gframe,dframe,th,cnts,hierarchy,mask,detections,color,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes,countFrame, maskColor, heatMap = frameTracker.frameTracker(ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,frameImplementation,countFrame,readColors,countCol,colorFishes, heatMap, maskColor, randColors)
+  ret,frame,gframe,dframe,th,cnts,hierarchy,mask,detections,color,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes,countFrame, heatMap, maskColor  = frameTracker.frameTracker(ret,grayMedianFrame,cap,reset, comparison, tracker,length,vet,countVet,getCountours,mask,color,correct,wrong,filter,frameImplementation,countFrame,readColors,countCol,colorFishes, heatMap, maskColor, randColors)
 
   #Count for file
   countVet = countVet + 1
