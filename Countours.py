@@ -1,4 +1,5 @@
 import numpy as np
+import random as rng
 from cv2 import cv2
 from scipy.spatial.distance import cdist, euclidean
 
@@ -15,11 +16,12 @@ class Countours:
     # color: (x,y,z) onde x,y,z são valores que representam uma cor
     # 
 
-    def getCountours(self,cnts,mask,frame,detections,color,hierarchy):
+    def getCountours(self,cnts,mask,frame,detections,color,hierarchy, maskColor, colorFishes, randColors):
         i = -1
+        j = 0
 
         # loop over the contours
-        for c in cnts:
+        for c in cnts:               
             i = i + 1
             # if the contour is too small, ignore it
             if cv2.contourArea(c) < 60:
@@ -39,8 +41,10 @@ class Countours:
 
             cv2.putText(frame, cord, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
             cv2.drawContours(frame, cnts, i, color, 2, cv2.LINE_8, hierarchy, 0)
+            cv2.drawContours(maskColor, cnts, i, randColors[j], -1, cv2.LINE_8, hierarchy, 0)
+            j = j + 1
             
-        return cnts,mask,frame,detections,color,hierarchy
+        return cnts,mask,frame,detections,color,hierarchy, maskColor
 
             
     #

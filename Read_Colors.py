@@ -1,4 +1,7 @@
 from cv2 import cv2
+from Countours import Countours
+import numpy as np
+
 
 class Read_Colors:
 
@@ -20,7 +23,7 @@ class Read_Colors:
     # frame: O frame em questão
     # colorFishes: Vetor contendo a cor especifica para cada peixe
 
-    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes):
+    def forReadColors(self,length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes, maskColor):
         length = length
         vet  = vet
         countVet = countVet
@@ -33,6 +36,7 @@ class Read_Colors:
         wrong = wrong
         frame = frame 
         colorFishes = colorFishes
+        maskColor = maskColor
         
 
         #para cada peixe
@@ -58,6 +62,15 @@ class Read_Colors:
                     vetX = int(vet[countVet][i*2])
                     vetY = int(vet[countVet][i*2+1])
 
+                #calcula a mediana geometrica a partir do blob no ponto do ground truth
+                b,g,r = maskColor[vetY, vetX]
+                coords = np.column_stack(np.where(maskColor == [b,g,r]))
+
+                geoM = Countours.geometric_median(Countours, coords)
+
+                vetX = int(geoM[1])
+                vetY = int(geoM[0])            
+
                 if verCol is True:
                     if (algX <= vetX + 3 and algX >= vetX - 3) and (algY <= vetY + 3 and algY >= vetY - 3):
                         correct += 1
@@ -75,4 +88,4 @@ class Read_Colors:
             #Amarelo    ID = 6
             #Ciano      ID = 7
             #Marrom     ID = 8  
-        return length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes
+        return length,vet,countVet,fishes_ids,countCol,reset, comparison, verCol,correct,wrong,frame,colorFishes, maskColor
