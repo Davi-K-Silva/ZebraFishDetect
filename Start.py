@@ -1,4 +1,5 @@
 from cv2 import cv2
+from HeatMap import HeatMap
 
 class Start:
 
@@ -25,4 +26,7 @@ class Start:
         # Convert background to grayscale
         grayMedianFrame = cv2.cvtColor(medianFrame, cv2.COLOR_BGR2GRAY)
 
-        return cap,medianFrame,grayMedianFrame
+        h,w,_ = medianFrame.shape
+        heatMap = HeatMap(h,w)
+
+        return cap,medianFrame,grayMedianFrame,heatMap
