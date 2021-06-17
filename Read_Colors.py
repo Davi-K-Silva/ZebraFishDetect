@@ -77,14 +77,14 @@ class Read_Colors:
                     else:
                         wrong += 1   
             if vetX != 1:
-                if i == 5:
+                if i == 2:
                     heatMap.AttMap(algX,algY)
 
                     b,g,r = maskColor[algY, algX]
                     coords = np.column_stack(np.where(maskColor == [b,g,r]))
 
                     for coord in coords:             
-                        maskUnit[coord[0], coord[1]] = [255,255,255]
+                        maskUnit[coord[0], coord[1]] = frame[coord[0], coord[1]]
 
                 cv2.circle(frame,(algX,algY),5,colorFishes[i], -1)    
 
